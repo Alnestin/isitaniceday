@@ -7,6 +7,9 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import './App.css';
+import axios from 'axios';
+import Stack from '@mui/material/Stack';
+import LikeButtons from './LikeButtons';
 
 const cardStyle = {
   display: 'block',
@@ -16,11 +19,16 @@ const cardStyle = {
 }
 
 export default function App() {
-  const [temp, setTemp] = React.useState("-");
+  const [temp, setTemp] = React.useState(null);
 
   function getWeather() {
-    setTemp("90°")
+    const baseURL = 'https://api.weather.gov/gridpoints/TOP/50,86/forecast';
+    axios.get(baseURL).then((response) => {
+      setTemp(response.data.properties.periods[0].temperature + "°");
+    }).catch((r) => console.log(r) );
   }
+
+  // function requestDecision() {}
   const card = (
     <React.Fragment>
       <CardContent>
@@ -34,12 +42,15 @@ export default function App() {
           {temp}
         </Typography>
       </CardContent>
-      <CardActions textAlign='center'>
+      <CardActions>
           <Container>
             <Box>
-              <Button variant='contained' onClick={getWeather}>
-                Get Weather
-              </Button>
+              <Stack spacing={1}>
+                <Button variant='contained' onClick={getWeather}>
+                  Get Weather
+                </Button>
+                <LikeButtons temp={temp}></LikeButtons>
+              </Stack>
             </Box>
           </Container>
       </CardActions>
