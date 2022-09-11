@@ -29,7 +29,7 @@ export default function LikeButtons(props) {
       });
 
       // Update value in database.
-      set(dbref, value);
+      set(dbref, value)
     } else {
       // Get current value
       onValue(dbref, (snapshot) => {
