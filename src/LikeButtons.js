@@ -11,6 +11,9 @@ const db = getDatabase(app);
 // const analytics = getAnalytics(app);
 
 export default function LikeButtons(props) {
+
+  const [likes, setLikes] = React.useState(0);
+  const [dislikes, setDislikes] = React.useState(0);
   if (!props.temp) {
     return null;
   }
@@ -22,6 +25,7 @@ export default function LikeButtons(props) {
       // Get current value
       onValue(dbref, (snapshot) => {
         value = parseInt(snapshot.val()) + 1;
+        setLikes(value);
       });
 
       // Update value in database.
@@ -30,6 +34,7 @@ export default function LikeButtons(props) {
       // Get current value
       onValue(dbref, (snapshot) => {
         value = parseInt(snapshot.val()) + 1;
+        setDislikes(value);
       });
 
       // Update value in database
@@ -39,8 +44,8 @@ export default function LikeButtons(props) {
 
   return (
     <Container>
-        <Button variant='contained' onClick={() => sendInfo('Like')}>Like</Button>
-        <Button variant='contained' onClick={() => sendInfo('Dislike')}>Dislike</Button>
+        <Button variant='contained' onClick={() => sendInfo('Like')}>Like ({likes})</Button>
+        <Button variant='contained' onClick={() => sendInfo('Dislike')}>Dislike ({dislikes})</Button>
     </Container>
   );
 }
