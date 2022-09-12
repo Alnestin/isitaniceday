@@ -10,6 +10,9 @@ import './App.css';
 import axios from 'axios';
 import Stack from '@mui/material/Stack';
 import LikeButtons from './LikeButtons';
+// import { initializeApp } from "firebase/app";
+// import { getDatabase} from "firebase/database";
+// import { firebaseConfig } from "./firebase.js";
 
 const cardStyle = {
   display: 'block',
@@ -18,9 +21,13 @@ const cardStyle = {
   height: '30vw'
 }
 
+// const app = initializeApp(firebaseConfig);
+// const db = getDatabase(app);
+
 export default function App() {
   const [temp, setTemp] = React.useState(null);
 
+  
   function getWeather() {
     const baseURL = 'https://api.weather.gov/gridpoints/TOP/50,86/forecast';
     axios.get(baseURL).then((response) => {
@@ -28,7 +35,6 @@ export default function App() {
     }).catch((r) => console.log(r) );
   }
 
-  // function requestDecision() {}
   const card = (
     <React.Fragment>
       <CardContent>

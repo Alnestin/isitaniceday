@@ -1,8 +1,7 @@
 import React from "react";
 import { Button, Container } from "@mui/material";
 import { initializeApp } from "firebase/app";
-import { getDatabase, ref, onValue, set } from "firebase/database";
-import { getAnalytics } from "firebase/analytics";
+import { getDatabase, ref, set } from "firebase/database";
 import { firebaseConfig } from "./firebase.js";
 
 // Initialize Firebase
@@ -11,7 +10,6 @@ const db = getDatabase(app);
 // const analytics = getAnalytics(app);
 
 export default function LikeButtons(props) {
-
   const [likes, setLikes] = React.useState(0);
   const [dislikes, setDislikes] = React.useState(0);
   if (!props.temp) {
@@ -19,26 +17,17 @@ export default function LikeButtons(props) {
   }
 
   function sendInfo(data) {
-    let value = 0;
     const dbref = ref(db, data + '/');
     if (data === "Like") {
       // Get current value
-      onValue(dbref, (snapshot) => {
-        value = parseInt(snapshot.val()) + 1;
-        setLikes(value);
-      });
-
-      // Update value in database.
-      set(dbref, value)
+      let new_val = likes + 1
+      setLikes(new_val);
+      set(dbref, new_val);
     } else {
       // Get current value
-      onValue(dbref, (snapshot) => {
-        value = parseInt(snapshot.val()) + 1;
-        setDislikes(value);
-      });
-
-      // Update value in database
-      set(dbref, value);
+      let new_val = dislikes + 1;
+      setDislikes(new_val);
+      set(dbref, new_val);
     }
   }
 
